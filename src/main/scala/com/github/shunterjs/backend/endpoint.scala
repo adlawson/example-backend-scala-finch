@@ -2,6 +2,7 @@ package com.github.shunterjs.backend
 
 import com.twitter.finagle.Service
 import com.twitter.finagle.http
+import com.twitter.io.{Reader, Buf}
 import io.circe.generic.auto._
 import io.finch._
 import io.finch.circe._
@@ -12,6 +13,7 @@ object endpoint {
 
   def toService(venues: Seq[Venue], images: Resources): Service[http.Request, http.Response] = (
     index(venues) :+:
+    static(images) :+:
     random(venues) :+:
     venue(venues)
   ).handle {
@@ -28,6 +30,13 @@ object endpoint {
     findByRand(venues) match {
       case None => throw new NoSuchElementException(s"""No venues available""")
       case Some(v) => Found(s"/${v.slug}")
+    }
+  }
+
+  def static(images: Resources): Endpoint[Buf] = get(filename) { filename: String =>
+    images(filename).map(Reader.fromStream) match {
+      case None => throw new NoSuchElementException(s"""Image with filename "$filename" doesn't exist""")
+      case Some(r) => Ok(Reader.readAll(r)).withContentType(Some("image/jpeg"))
     }
   }
 

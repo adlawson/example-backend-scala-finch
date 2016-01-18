@@ -17,6 +17,11 @@ package object backend {
     Map("Location" -> path)
   )
 
+  def filename: Extractor[String] = new Extractor("filename", { str =>
+    if (str.endsWith(".jpg")) Some(str)
+    else None
+  })
+
   def findBySlug(vs: Seq[Venue])(slug: String): Option[Venue] =
     vs.filter(_.slug == slug).headOption
 
