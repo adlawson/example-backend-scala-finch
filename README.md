@@ -24,6 +24,26 @@ Start the application on a different port:
 PORT=1234 sbt run
 ```
 
+## Running from build
+
+Build the application JAR and startup script:
+
+```shell
+sbt compile stage
+```
+
+Start the application on port `5000`:
+
+```shell
+./target/universal/stage/bin/shunter-example-backend
+```
+
+Start the application on a different port:
+
+```shell
+PORT=1234 ./target/universal/stage/bin/shunter-example-backend
+```
+
 
 ## License
 
