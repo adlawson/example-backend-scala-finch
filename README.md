@@ -44,6 +44,12 @@ Start the application on a different port:
 PORT=1234 ./target/universal/stage/bin/shunter-example-backend
 ```
 
+Start the application with [Foreman](https://github.com/ddollar/foreman):
+
+```shell
+foreman start
+```
+
 
 ## License
 
