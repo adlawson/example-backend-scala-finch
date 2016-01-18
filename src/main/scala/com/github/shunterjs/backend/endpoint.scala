@@ -12,6 +12,7 @@ object endpoint {
 
   def toService(venues: Seq[Venue], images: Resources): Service[http.Request, http.Response] = (
     index(venues) :+:
+    random(venues) :+:
     venue(venues)
   ).handle {
     case e: NoSuchElementException =>
@@ -21,6 +22,13 @@ object endpoint {
   def index(venues: Seq[Venue]): Endpoint[Response[VenueList]] = get(/) {
     val data = VenueList(title, venues)
     Ok(Response(Layout("home"), data))
+  }
+
+  def random(venues: Seq[Venue]): Endpoint[Unit] = get("random") {
+    findByRand(venues) match {
+      case None => throw new NoSuchElementException(s"""No venues available""")
+      case Some(v) => Found(s"/${v.slug}")
+    }
   }
 
   def venue(venues: Seq[Venue]): Endpoint[Response[VenueData]] = get(string) { slug: String =>
