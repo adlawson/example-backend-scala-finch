@@ -1,8 +1,11 @@
 lazy val example = (project in file("."))
+  .enablePlugins(JavaAppPackaging)
   .settings(
     name := "shunter-example-backend",
     organization := "com.github.shunterjs",
     mainClass := Some("com.github.shunterjs.backend.Main"),
+    packageSummary := "Shunter example back end",
+    packageDescription := "A Scala and Finch based back end for the Shunter example application.",
     version := "1.0.0-SNAPSHOT",
     scalaVersion := "2.11.7",
     scalacOptions ++= Seq(
