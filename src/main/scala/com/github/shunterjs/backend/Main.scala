@@ -23,8 +23,8 @@ object Main extends App {
 
   getVenues match {
     case None => throw new RuntimeException("No venue data available")
-    case Some(v) => Await.ready {
-      Http.serve(s":$getPort", endpoint.toService(v, getImage))
+    case Some(vs) => Await.ready {
+      Http.serve(s":$getPort", endpoint.toService(vs, getImage))
     }
   }
 }

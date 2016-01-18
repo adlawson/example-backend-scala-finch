@@ -28,7 +28,7 @@ object endpoint {
 
   def random(venues: Seq[Venue]): Endpoint[Unit] = get("random") {
     findByRand(venues) match {
-      case None => throw new NoSuchElementException(s"""No venues available""")
+      case None => throw new NoSuchElementException("No venues available")
       case Some(v) => Found(s"/${v.slug}")
     }
   }

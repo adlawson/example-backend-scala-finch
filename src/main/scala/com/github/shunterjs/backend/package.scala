@@ -27,11 +27,11 @@ package object backend {
 
   def findByRand(vs: Seq[Venue]): Option[Venue] =
     if (vs.length == 0) None
-    else Option(vs(Random.nextInt(vs.length)))
+    else vs.lift(Random.nextInt(vs.length))
 
   def getResource: Resources =
     (s: String) => Option(getClass.getResourceAsStream(s))
 
   def streamToString(stream: InputStream): Option[String] =
-    Option(Source.fromInputStream(stream).getLines.mkString)
+    Option(Source.fromInputStream(stream)).map(_.getLines.mkString)
 }
