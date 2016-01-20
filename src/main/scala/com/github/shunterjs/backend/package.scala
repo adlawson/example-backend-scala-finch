@@ -1,7 +1,8 @@
 package com.github.shunterjs
 
 import com.twitter.finagle.http.Status
-import io.finch.{Extractor, Output}
+import io.circe.{Encoder, Json, Printer}
+import io.finch.{EncodeResponse, Extractor, Output}
 import java.io.InputStream
 import scala.io.Source
 import scala.util.Random
@@ -9,6 +10,12 @@ import scala.util.Random
 package object backend {
 
   type Resources = String => Option[InputStream]
+
+  // X-Shunter JSON encoder without Charset
+  implicit def encodeJson[A](implicit e: Encoder[A]): EncodeResponse[A] =
+    EncodeResponse.fromString[A]("application/x-shunter+json", None) { a =>
+      Printer.noSpaces.pretty(e(a))
+    }
 
   // io.finch.Outputs.Found should be an empty response rather than a failure
   def Found(path: String): Output[Unit] = Output.Payload[Unit](

@@ -5,7 +5,6 @@ import com.twitter.finagle.http
 import com.twitter.io.{Reader, Buf}
 import io.circe.generic.auto._
 import io.finch._
-import io.finch.circe._
 
 object endpoint {
 
